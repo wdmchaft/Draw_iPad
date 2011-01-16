@@ -131,7 +131,7 @@
 	[data addObject:modNode];
 }
 
-- (void) addVarToData:(NSMutableArray*)lineArray:(int) counter {
+- (void) addVarToData:(NSMutableArray*)lineArray:(int) wordCounter {
 	//adding variable to datastructure
 	//What if no module exists?!
 	//This method only works in vcd format!
@@ -139,23 +139,22 @@
 	ModuleNode* modNode = [data objectAtIndex:0];
 	NSMutableArray* variablesArray = [modNode variables];
 	
-	NSString* varType = [[NSString alloc] initWithFormat:@"%@%@",[lineArray objectAtIndex:counter], [lineArray objectAtIndex:counter+1]];
+	//**//
+	NSString* varType = [[NSString alloc] initWithFormat:@"%@%@",[lineArray objectAtIndex:wordCounter], [lineArray objectAtIndex:wordCounter+1]];
+	wordCounter+=2;
 	
-	counter++;
-	counter++;
+	NSString* varSymbol = [lineArray objectAtIndex:wordCounter];
 	
-	NSString* varSymbol = [lineArray objectAtIndex:counter];
+	wordCounter++;
 	
-	counter++;
-	
-	NSString* varName = [lineArray objectAtIndex:counter];
+	NSString* varName = [lineArray objectAtIndex:wordCounter];
 
 	//if variable is an array variable
-	if (![[lineArray objectAtIndex:counter+1] isEqual:@"$end"]) {
+	if (![[lineArray objectAtIndex:wordCounter+1] isEqual:@"$end"]) {
 		
-		counter++;
+		wordCounter++;
 		
-		NSString* varNumber = [[lineArray objectAtIndex:counter] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]];
+		NSString* varNumber = [[lineArray objectAtIndex:wordCounter] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]];
 		
 		int indexBehindActual = [variablesArray count] - 1; 
 		VariableNode* variableBehindActual = [variablesArray objectAtIndex:indexBehindActual];

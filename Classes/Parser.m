@@ -22,22 +22,44 @@
 - (void)parseFile:(NSString*) filePath {
 	//replacement for constructor
 	
+	//check existence of file
 	if ([self getFile:filePath]) {
-		NSMutableArray* vcdArray = [self convertFileToMutableArray:filePath];
-		if (vcdArray != nil) {
-			[self makeTree:vcdArray];
+		//check if file is a vcd file
+		if ([self checkOnVCDFormat:filePath]) {
+			NSMutableArray* vcdArray = [self convertFileToMutableArray:filePath];
+			if (vcdArray != nil) {
+				[self makeTree:vcdArray];
+			} else {
+				NSLog(@"Array is already in use.");
+			}
 		} else {
-			NSLog(@"Array is already in use.");
+			NSLog(@"Not a vcd file!");
 		}
+ 
 	} else {
 		NSLog(@"File not found. Aborting.");
 	}
-
-}
+}	
 
 - (BOOL)getFile:(NSString*) filePath {
 	//check existence of the file
+	
 	return [[NSFileManager alloc] fileExistsAtPath:filePath];
+}
+
+- (BOOL) checkOnVCDFormat:(NSString*) filePath {
+	int countLength = [filePath length];
+	NSString* dataFormat = [[NSString alloc] initWithFormat:@""];
+	for (int i = countLength-1; i > countLength-4; i--) {
+		unichar newCharacter = [filePath characterAtIndex:i];
+		NSString* newString = [[NSString alloc] initWithFormat:@"%c%@", newCharacter, dataFormat];
+		dataFormat = newString;
+	}
+	if ([dataFormat isEqual:@"vcd"]) {
+		return YES;
+	} else {
+		return NO;
+	}
 }
 
 - (NSMutableArray*)convertFileToMutableArray:(NSString*) filePath {
@@ -91,7 +113,7 @@
 			
 		}
 	}
-	[self allOut];
+	//[self allOut];
 }
 
 - (void) createHeadDatastructure:(NSMutableArray*)vcdArray:(int) counterL {
@@ -239,7 +261,7 @@
 					//getting string in line
 					NSString* stringAtTarget = [[vcdArray objectAtIndex:counterL] objectAtIndex:i];
 					//cut off the intvalue
-					NSInteger signal = [[NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:0]] intValue];
+					NSInteger signal = [[NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:0]] integerValue];
 					//cut off the symbol
 					NSString* symbol = [NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:1]];
 					//add it to variable
@@ -252,7 +274,7 @@
 					//getting string in line
 					NSString* stringAtTarget = [[vcdArray objectAtIndex:counterL] objectAtIndex:i];
 					//cut off the intvalue
-					NSInteger signal = [[NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:0]] intValue];
+					NSInteger signal = [[NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:0]] integerValue];
 					//cut off the symbol
 					NSString* symbol = [NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:1]];
 					//add it to variable

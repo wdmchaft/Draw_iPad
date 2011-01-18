@@ -98,10 +98,10 @@
 	
 	for (counterLines = 0; counterLines < [vcdArray count] ; counterLines++) {
 		
-		NSMutableArray* secondArray = [vcdArray objectAtIndex:counterLines];
+		NSMutableArray* lineArray = [vcdArray objectAtIndex:counterLines];
 	
-		for (counterWords = 0; counterWords < [secondArray count]; counterWords++) {
-			NSString* string = [secondArray objectAtIndex:counterWords];
+		for (counterWords = 0; counterWords < [lineArray count]; counterWords++) {
+			NSString* string = [lineArray objectAtIndex:counterWords];
 			//set variables
 			if ([string isEqual:@"$scope"]) {
 				[self createHeadDatastructure:vcdArray :counterLines];

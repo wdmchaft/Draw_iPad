@@ -5,7 +5,7 @@
 //  Created by Dennis Hübner on 09.01.11.
 //  Copyright 2011 huebys inventions. All rights reserved.
 //
-//  Tested by me
+//  Tested by me and by me
 
 #import "Parser.h"
 #import "ModuleNode.h"

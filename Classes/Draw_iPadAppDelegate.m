@@ -29,8 +29,8 @@
     [window addSubview:viewController.view];
 	[window makeKeyAndVisible];
 	
-	Parser *parse = [[Parser alloc] init];
-	[parse parseFile:@"/Users/dennis/Downloads/very_simple.vcd"];
+	//Parser *parse = [[Parser alloc] init];
+	//[parse parseFile:@"/Users/dennis/Downloads/very_simple.vcd"];
 	//test
     return YES;
 }

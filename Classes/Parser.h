@@ -20,7 +20,7 @@
 }
 
 - (id) init;
-- (void) parseFile:(NSString*) filePath;
+- (BOOL) parseFile:(NSString*) filePath;
 - (BOOL) getFile:(NSString*) filePath;
 - (BOOL) checkOnVCDFormat:(NSString*) filePath;
 - (NSMutableArray*) convertFileToMutableArray:(NSString*) filePath;

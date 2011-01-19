@@ -10,9 +10,18 @@
 
 @interface Draw_iPadViewController : UIViewController {
 	IBOutlet UIScrollView *scroller;
+	IBOutlet UITableView *tbl;
+	NSMutableArray *moduleArray;
+	NSMutableArray *variableArray;
+	NSMutableArray *signalArray;
+	int count;
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scroller;
+@property (nonatomic, retain) IBOutlet UITableView *tbl;
+@property (nonatomic, retain) NSMutableArray *moduleArray;
+@property (nonatomic, retain) NSMutableArray *variableArray;
+@property (nonatomic, retain) NSMutableArray *signalArray;
 
 
 @end

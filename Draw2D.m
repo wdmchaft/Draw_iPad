@@ -7,10 +7,12 @@
 //
 
 #import "Draw2D.h"
+#import "SignalNode.h"
 
 
 @implementation Draw2D
 
+@synthesize signals;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
@@ -26,6 +28,53 @@
     // Drawing code
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextSetLineWidth(context, 1.0);
+	CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
+	
+	int i = 1;
+
+	SignalNode* signalNode = [signals objectAtIndex:i];
+	NSLog(@"%@", [signalNode getSignal]?@"Yes":@"No");
+	
+	NSInteger x = 0;
+	NSInteger y = 0;
+	
+	if ([signalNode getSignal]) {
+		y = 30;
+	} else {
+		y = 40;
+	}
+
+	
+	CGContextMoveToPoint(context, x, y);
+	
+	i++;
+	
+	signalNode = [signals objectAtIndex:i];
+	
+	NSLog(@"%i %i", x, y);
+
+	for (i; i < [signals count]; i++) {
+		
+		signalNode = [signals objectAtIndex:i];
+		
+		if ([signalNode timeStep]) {
+			x = [signalNode timeStep];
+			NSLog(@"%i", x);
+		} else if ([signalNode getSignal]) {
+			y = 30;
+		} else {
+			y = 40;
+		}
+		NSLog(@"%i %i", x, y);
+		CGContextAddLineToPoint(context,  (CGFloat)x, (CGFloat)y);
+	}
+	
+	
+	CGContextStrokePath(context);
+	/*
+	
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	CGContextSetLineWidth(context, 2.0);
 	CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
@@ -33,6 +82,7 @@
 	// (neuen) Startpunkt im context festlegen 
 	
 	CGContextMoveToPoint(context, 0, 50);
+	
 	// Zeichne 0000 0100 1110..., 
 	// Längen- und Höhenabstand zwischen 2 Werten jeweils 10 pt
 	
@@ -64,9 +114,17 @@
 	CGContextAddLineToPoint(context, 400, 40); 
 	CGContextAddLineToPoint(context, 400, 50);
 	CGContextAddLineToPoint(context, 450, 50);
-
+	
 	// Zeichnet eine Linie entlang des aktuellen Pfads 
-	CGContextStrokePath(context);
+	for (int i = 30; i < 1000; i+=70) {
+		CGContextAddLineToPoint(context, i, 30);
+		CGContextAddLineToPoint(context, i, 40);
+		CGContextAddLineToPoint(context, i+20, 40);
+		CGContextAddLineToPoint(context, i+20, 30);
+		CGContextAddLineToPoint(context, i+60, 30);
+	}
+	
+	CGContextStrokePath(context);*/
 }
 
 

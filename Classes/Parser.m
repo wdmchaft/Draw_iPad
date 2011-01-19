@@ -19,9 +19,9 @@
 	return self;
 }
 
-- (void)parseFile:(NSString*) filePath {
+- (BOOL)parseFile:(NSString*) filePath {
 	//replacement for constructor
-	
+	BOOL canParse = NO;
 	//check existence of file
 	if ([self getFile:filePath]) {
 		//check if file is a vcd file
@@ -29,15 +29,21 @@
 			NSMutableArray* vcdArray = [self convertFileToMutableArray:filePath];
 			if (vcdArray != nil) {
 				[self makeTree:vcdArray];
+				canParse = YES;
+				return canParse;
+
 			} else {
 				NSLog(@"Array is already in use.");
+				return canParse;
 			}
 		} else {
 			NSLog(@"Not a vcd file!");
+			return canParse;
 		}
  
 	} else {
 		NSLog(@"File not found. Aborting.");
+		return canParse;
 	}
 }	
 
@@ -303,7 +309,7 @@
 			break;
 	}
 	[signalN setSignal:finalSignal];
-	NSLog(@"Signal %d zu %@ hinzugefügt", signal, symbol);
+	//NSLog(@"Signal %d zu %@ hinzugefügt", signal, symbol);
 
 	[arrayAtVariable addObject:signalN];
 }
@@ -338,33 +344,32 @@
 	}
 }
 
-- (NSMutableArray*) searchForSymbolInDatastructure:(NSString*) symbol {
+- (NSMutableArray*) searchForSymbolInDatastructure:(NSString*) searchString {
 	
 	//Caution! The search works only in one module for now
 	ModuleNode* modules = [data objectAtIndex:0];
-
 	NSMutableArray* variableArray = [modules variables];
 	
 	for (int i = 0; i < [variableArray count]; i++) {
 		VariableNode* varNode = [variableArray objectAtIndex:i];
 		
-		if ([[varNode symbol] isEqual:symbol]) {
-			
+		if ([[varNode symbol] isEqual:searchString]) {
 			return [varNode signals];
 		} else {
 			
 			NSMutableArray* varNodeArray = [varNode varArray];
-			
+
 			for (int j = 0; j < [varNodeArray count]; j++) {
 				VariableNode* varNodeArrayNode = [varNodeArray objectAtIndex:j];
-				if ([[varNodeArrayNode symbol] isEqual:symbol]) {
+
+				if ([[varNodeArrayNode symbol] isEqual:searchString]) {
 			
 					return [varNodeArrayNode signals];
 				}
 			}
 		}
 	}
-	return [[NSString alloc] initWithFormat:@"%@ wurde nicht gefunden", symbol];
+	return [[NSString alloc] initWithFormat:@"%@ wurde nicht gefunden", searchString];
 }
 
 - (void) allOut {

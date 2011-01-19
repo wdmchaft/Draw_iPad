@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
-@interface Draw2D : UIScrollView {
+@interface Draw2D : UIView {
+	NSMutableArray *signals;
 }
+
+@property (nonatomic, retain) NSMutableArray *signals;
 
 @end

@@ -50,16 +50,15 @@
 	//TODO make this dynamic..
 	[scroller setContentSize:CGSizeMake(screensize_width, screensize_height)];
 	
-	NSString *path = [[NSString alloc] initWithFormat:@"/var/mobile/Applications/65134CBB-CBD0-4BA6-B6BC-EFB16BBFF600/Draw_iPad.app/simple.vcd"];
+	//NSString *path = @"/var/mobile/Applications/65134CBB-CBD0-4BA6-B6BC-EFB16BBFF600/Draw_iPad.app/simple.vcd";
+	NSString *path = @"/Users/dennis/Downloads/very_simple.vcd";
 	Parser *parse = [[Parser alloc] init];
 	if ([parse parseFile:path]) {
-		[self setSignalArray:[parse searchForSymbolInDatastructure:@"!"]];
+		//[self setSignalArray:[parse searchForSymbolInDatastructure:@"!"]];
 		[self setModuleArray:[parse data]];
 		[self setVariableArray:[[moduleArray objectAtIndex:0] variables]];
-
 	}
 	[super viewDidLoad];
-
 }
 
 
@@ -83,6 +82,8 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	
+	//TODO clean up variables..
 }
 
 - (void)dealloc {
@@ -114,20 +115,26 @@
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease]; 
 		if (moduleArray != nil && count < 2) {
-			Draw2D* draw = [[Draw2D alloc] initWithFrame:CGRectMake(0, 30, 0, 0)];
+			Draw2D* draw = [[Draw2D alloc] initWithFrame:CGRectMake(0, 30, 100, 100)];
+			
 			ModuleNode* module = [moduleArray objectAtIndex:0];
 			variableArray = [module variables];
+			
 			VariableNode* variable = [variableArray objectAtIndex:count];
+			
 			[draw setSignals:[variable signals]];
 			[draw drawRect:CGRectMake(0, 30, 100, 100)];
+			
 			[cell setBackgroundView:draw];
+			//[cell setSelectedBackgroundView:draw];
+			
 			count++;
 		} else {
 			[cell setText:@"Array empty.."];
 			//cell.selectedBackgroundView = [[[Draw2D alloc] init] autorelease]; 
 		}
-		cell.backgroundView.backgroundColor = [UIColor whiteColor];
-
+		[[cell backgroundView] setBackgroundColor:[UIColor whiteColor]];
+		[[cell selectedBackgroundView] setBackgroundColor:[UIColor orangeColor]];
 	} // Configure the cell. 
 	return cell;
 }

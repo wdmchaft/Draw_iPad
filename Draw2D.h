@@ -11,8 +11,13 @@
 
 @interface Draw2D : UIView {
 	NSMutableArray *signals;
+	NSString *nameOfSignal;
 }
 
+- (void) drawSignal;
+
 @property (nonatomic, retain) NSMutableArray *signals;
+@property (nonatomic, retain) NSString *nameOfSignal;
+
 
 @end

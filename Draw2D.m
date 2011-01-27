@@ -13,6 +13,7 @@
 @implementation Draw2D
 
 @synthesize signals;
+@synthesize nameOfSignal;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
@@ -21,11 +22,17 @@
 	return self;
 }
 
+- (void) drawSignal {
+		
+	
+}
+
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-    // Drawing code
+    
+	NSLog(@"Hier Draw2D: Zeichne Variable %@", nameOfSignal);
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextSetLineWidth(context, 1.0);
@@ -34,7 +41,7 @@
 	int i = 1;
 
 	SignalNode* signalNode = [signals objectAtIndex:i];
-	NSLog(@"%@", [signalNode getSignal]?@"Yes":@"No");
+	//NSLog(@"%@", [signalNode getSignal]?@"Yes":@"No");
 	
 	NSInteger x = 0;
 	NSInteger y = 0;
@@ -52,7 +59,7 @@
 	
 	signalNode = [signals objectAtIndex:i];
 	
-	NSLog(@"%i %i", x, y);
+	//NSLog(@"%i %i", x, y);
 
 	for (i; i < [signals count]; i++) {
 		
@@ -60,18 +67,21 @@
 		
 		if ([signalNode timeStep]) {
 			x = [signalNode timeStep];
-			NSLog(@"%i", x);
+			//NSLog(@"%i", x);
 		} else if ([signalNode getSignal]) {
 			y = 30;
 		} else {
 			y = 40;
 		}
-		NSLog(@"%i %i", x, y);
+		//NSLog(@"%i %i", x, y);
 		CGContextAddLineToPoint(context,  (CGFloat)x, (CGFloat)y);
 	}
 	
 	
 	CGContextStrokePath(context);
+	
+	// Drawing code
+
 	/*
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();

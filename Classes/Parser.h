@@ -26,7 +26,7 @@
 - (NSMutableArray*) convertFileToMutableArray:(NSString*) filePath;
 - (void) makeTree:(NSMutableArray*)vcdArray;
 
-- (void) createHeadDatastructure:(NSMutableArray*)vcdArray :(int) counterL;
+- (void) createHeadDatastructure:(NSMutableArray*)vcdArray;
 - (void) addModToData:(NSMutableArray*)lineArray :(int) counter;
 - (void) addVarToData:(NSMutableArray*)lineArray :(int) counter;
 

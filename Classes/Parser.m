@@ -110,7 +110,7 @@
 			NSString* string = [lineArray objectAtIndex:counterWords];
 			//set variables
 			if ([string isEqual:@"$scope"]) {
-				[self createHeadDatastructure:vcdArray :counterLines];
+				[self createHeadDatastructure:vcdArray];
 			}
 			//set signals for variables
 			if ([string isEqual:@"$enddefinitions"]) {
@@ -122,12 +122,12 @@
 	//[self allOut];
 }
 
-- (void) createHeadDatastructure:(NSMutableArray*)vcdArray:(int) counterL {
+- (void) createHeadDatastructure:(NSMutableArray*)vcdArray {
 	BOOL abort = NO;
 	
-	for (counterL; counterL < [vcdArray count]; counterL++) {
+	for (counterLines; counterLines < [vcdArray count]; counterLines++) {
 		
-		NSMutableArray* textArray = [vcdArray objectAtIndex:counterL];
+		NSMutableArray* textArray = [vcdArray objectAtIndex:counterLines];
 
 		for (int i = 0; i < [textArray count]; i++) {
 			NSString* string = [textArray objectAtIndex:i];
@@ -138,10 +138,12 @@
 			
 			if ([string isEqual:@"module"]) {
 				[self addModToData:textArray :i+1];
+			
 			}
 			
 			if ([string isEqual:@"$var"]) {
 				[self addVarToData:textArray :i+1];
+				i+=4;
 			}
 		}
 		if (abort) {
@@ -280,10 +282,16 @@
 					//getting string in line
 					NSString* stringAtTarget = [[vcdArray objectAtIndex:counterL] objectAtIndex:i];
 					//cut off the intvalue
+					
+					NSLog(@"%@", stringAtTarget);
+					
 					NSInteger signal = [[NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:0]] integerValue];
 					//cut off the symbol
 					NSString* symbol = [NSString stringWithFormat:@"%c", [stringAtTarget characterAtIndex:1]];
 					//add it to variable
+					
+					NSLog(@"signal: %i und symbol: %@", signal, symbol);
+					
 					[self addSignalToDB:signal :symbol];
 				}
 			
@@ -388,7 +396,7 @@
 	NSLog(@"%d. Objekt: %@", target, [testSignal getSignal]?@"YES":@"NO");
 	for (int i = 0; i < [signals count];  i++) {
 		SignalNode* signal = [signals objectAtIndex:i];
-		if ([signal timeStep] != nil) {
+		if ([signal timeStep]) {
 			NSLog(@"Time: %d", [signal timeStep]);
 		} else {
 			NSLog(@"%@", [signal getSignal]?@"YES":@"NO");
